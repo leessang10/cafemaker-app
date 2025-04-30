@@ -1,7 +1,8 @@
 import { Tabs } from 'expo-router';
 import { FontAwesome } from '@expo/vector-icons';
 import { SafeAreaProvider, initialWindowMetrics } from 'react-native-safe-area-context';
-import { ThemeProvider, useTheme } from './context/ThemeContext';
+import ThemeProvider from '@src/context/ThemeContext';
+import { useTheme } from '@src/context/ThemeContext';
 
 function TabNavigator() {
   const { colors } = useTheme();

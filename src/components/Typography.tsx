@@ -3,11 +3,11 @@ import { Text as RNText, TextProps, StyleSheet } from 'react-native';
 import { useTheme } from '../context/ThemeContext';
 import { FONTS } from '../constants/theme';
 
-type TypographyProps = TextProps & {
+export type TypographyProps = TextProps & {
   variant?: 'title' | 'subtitle' | 'body' | 'caption';
 };
 
-export const Typography: React.FC<TypographyProps> = ({ style, variant = 'body', ...props }) => {
+const Typography: React.FC<TypographyProps> = ({ style, variant = 'body', ...props }) => {
   const { colors } = useTheme();
 
   const getFontStyle = () => {
@@ -47,3 +47,5 @@ const styles = StyleSheet.create({
     fontFamily: FONTS.regular,
   },
 });
+
+export default Typography;

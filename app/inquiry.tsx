@@ -1,8 +1,8 @@
 import { View, StyleSheet, TouchableOpacity, FlatList } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { useTheme } from './context/ThemeContext';
-import { globalStyles } from './constants/theme';
-import { Typography } from './components/Typography';
+import { useTheme } from '@src/context/ThemeContext';
+import { globalStyles } from '@src/constants/theme';
+import Typography from '@src/components/Typography';
 
 const dummyInquiries = [
   { id: '1', title: '카페 창업 문의', date: '2024-04-26' },
