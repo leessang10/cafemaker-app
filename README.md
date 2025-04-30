@@ -1,3 +1,49 @@
+# 카페메이커 앱
+
+## 홈 페이지
+
+<img src="screenshot/home.png" width="300" alt="홈 페이지" />
+
+## 창업 분석 페이지
+
+<img src="screenshot/estimate.png" width="300" alt="창업 분석 페이지" />
+
+카페 창업을 위한 종합 플랫폼 앱입니다.
+
+## 주요 기능
+
+- 상권 분석
+- 창업 견적
+- 창업 문의
+- 창업 가이드
+- 성공 사례
+- FAQ
+
+## 기술 스택
+
+- React Native
+- Expo
+- TypeScript
+- React Navigation
+
+## 설치 및 실행
+
+```bash
+# 의존성 설치
+npm install
+
+# 개발 서버 실행
+npm start
+```
+
+## 라이센스
+
+MIT
+
+# 앱 스크린샷
+
+[/home.png]
+
 # 카페메이커 앱 기술 스택 권장 버전
 
 현재 프로젝트의 Expo 버전(52.0.46)을 기준으로 권장 버전들을 나열합니다.
