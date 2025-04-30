@@ -1,5 +1,5 @@
 import { Tabs } from 'expo-router';
-import { FontAwesome } from '@expo/vector-icons';
+import { Ionicons } from '@expo/vector-icons';
 import { SafeAreaProvider, initialWindowMetrics } from 'react-native-safe-area-context';
 import ThemeProvider from '@src/context/ThemeContext';
 import { useTheme } from '@src/context/ThemeContext';
@@ -19,35 +19,35 @@ function TabNavigator() {
         name="index"
         options={{
           title: '홈',
-          tabBarIcon: ({ color }) => <FontAwesome name="home" size={24} color={color} />,
+          tabBarIcon: ({ color }) => <Ionicons name="home" size={24} color={color} />,
         }}
       />
       <Tabs.Screen
         name="analysis"
         options={{
           title: '상권 분석',
-          tabBarIcon: ({ color }) => <FontAwesome name="map-marker" size={24} color={color} />,
+          tabBarIcon: ({ color }) => <Ionicons name="location" size={24} color={color} />,
         }}
       />
       <Tabs.Screen
         name="estimate"
         options={{
           title: '창업 견적',
-          tabBarIcon: ({ color }) => <FontAwesome name="file-text-o" size={24} color={color} />,
+          tabBarIcon: ({ color }) => <Ionicons name="calculator" size={24} color={color} />,
         }}
       />
       <Tabs.Screen
         name="inquiry"
         options={{
           title: '창업 문의',
-          tabBarIcon: ({ color }) => <FontAwesome name="comments" size={24} color={color} />,
+          tabBarIcon: ({ color }) => <Ionicons name="chatbubbles" size={24} color={color} />,
         }}
       />
       <Tabs.Screen
         name="more"
         options={{
           title: '더보기',
-          tabBarIcon: ({ color }) => <FontAwesome name="ellipsis-h" size={24} color={color} />,
+          tabBarIcon: ({ color }) => <Ionicons name="ellipsis-horizontal" size={24} color={color} />,
         }}
       />
     </Tabs>

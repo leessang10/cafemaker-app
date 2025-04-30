@@ -8,7 +8,7 @@ import Typography from '@src/components/Typography';
 
 const { width } = Dimensions.get('window');
 
-type IoniconsName = 'location' | 'document-text' | 'chatbubbles' | 'book' | 'trophy' | 'help-circle' | 'notifications';
+type IoniconsName = 'location' | 'calculator' | 'chatbubbles' | 'book' | 'trophy' | 'help-circle' | 'notifications';
 
 const features: { id: string; label: string; icon: IoniconsName; description: string }[] = [
   {
@@ -20,7 +20,7 @@ const features: { id: string; label: string; icon: IoniconsName; description: st
   {
     id: '2',
     label: '창업 견적',
-    icon: 'document-text',
+    icon: 'calculator',
     description: '예상 비용과 수익을\n미리 계산해보세요',
   },
   {
