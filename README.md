@@ -1,14 +1,16 @@
 # 카페메이커 앱
 
-## 홈 페이지
+카페 창업을 위한 종합 플랫폼 앱입니다.
+
+## 스크린샷
+
+### 홈 페이지
 
 <img src="screenshot/home.png" width="300" alt="홈 페이지" />
 
-## 창업 분석 페이지
+### 창업 분석 페이지
 
 <img src="screenshot/estimate.png" width="300" alt="창업 분석 페이지" />
-
-카페 창업을 위한 종합 플랫폼 앱입니다.
 
 ## 주요 기능
 
@@ -30,19 +32,15 @@
 
 ```bash
 # 의존성 설치
-npm install
+yarn install
 
 # 개발 서버 실행
-npm start
+yarn start
 ```
 
 ## 라이센스
 
 MIT
-
-# 앱 스크린샷
-
-[/home.png]
 
 # 카페메이커 앱 기술 스택 권장 버전
 
