@@ -1,14 +1,21 @@
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, StyleSheet, TouchableOpacity } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { useTheme } from './context/ThemeContext';
+import { globalStyles } from './constants/theme';
+import { Typography } from './components/Typography';
 
 export default function EstimateScreen() {
+  const { colors } = useTheme();
+
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={[globalStyles.container, styles.container]}>
       <View style={styles.content}>
-        <Text style={styles.title}>나만의 카페 견적 만들기</Text>
-        <Text style={styles.description}>단계별로 진행하여 나만의 카페 창업 견적을 만들어보세요.</Text>
-        <TouchableOpacity style={styles.startButton}>
-          <Text style={styles.startButtonText}>시작하기</Text>
+        <Typography variant="title">나만의 카페 견적 만들기</Typography>
+        <Typography variant="body" style={styles.description}>
+          단계별로 진행하여 나만의 카페 창업 견적을 만들어보세요.
+        </Typography>
+        <TouchableOpacity style={[styles.startButton, { backgroundColor: colors.primary }]}>
+          <Typography style={styles.startButtonText}>시작하기</Typography>
         </TouchableOpacity>
       </View>
     </SafeAreaView>
@@ -18,7 +25,6 @@ export default function EstimateScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
   },
   content: {
     flex: 1,
@@ -26,27 +32,16 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  title: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    marginBottom: 10,
-    textAlign: 'center',
-  },
   description: {
-    fontSize: 16,
-    color: '#666',
     textAlign: 'center',
     marginBottom: 30,
   },
   startButton: {
-    backgroundColor: '#007AFF',
     paddingHorizontal: 30,
     paddingVertical: 15,
     borderRadius: 10,
   },
   startButtonText: {
     color: '#fff',
-    fontSize: 18,
-    fontWeight: 'bold',
   },
 });

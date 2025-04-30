@@ -1,32 +1,49 @@
-import { View, Text, ScrollView, StyleSheet } from 'react-native';
+import { View, ScrollView, StyleSheet } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { useTheme } from './context/ThemeContext';
+import { globalStyles } from './constants/theme';
+import { Typography } from './components/Typography';
 
 export default function HomeScreen() {
+  const { colors } = useTheme();
+
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={[globalStyles.container, styles.container]}>
       <ScrollView>
-        <View style={styles.bannerContainer}>
-          <Text style={styles.bannerText}>배너 영역</Text>
+        <View style={[styles.bannerContainer, { backgroundColor: colors.primaryBg }]}>
+          <Typography variant="title">배너 영역</Typography>
         </View>
 
         <View style={styles.gridContainer}>
           <View style={styles.gridItem}>
-            <Text style={styles.gridText}>상권 분석</Text>
+            <Typography variant="subtitle" style={[styles.gridText, { backgroundColor: colors.primaryBg }]}>
+              상권 분석
+            </Typography>
           </View>
           <View style={styles.gridItem}>
-            <Text style={styles.gridText}>창업 견적 만들기</Text>
+            <Typography variant="subtitle" style={[styles.gridText, { backgroundColor: colors.primaryBg }]}>
+              창업 견적 만들기
+            </Typography>
           </View>
           <View style={styles.gridItem}>
-            <Text style={styles.gridText}>창업 문의</Text>
+            <Typography variant="subtitle" style={[styles.gridText, { backgroundColor: colors.primaryBg }]}>
+              창업 문의
+            </Typography>
           </View>
           <View style={styles.gridItem}>
-            <Text style={styles.gridText}>창업 가이드</Text>
+            <Typography variant="subtitle" style={[styles.gridText, { backgroundColor: colors.primaryBg }]}>
+              창업 가이드
+            </Typography>
           </View>
           <View style={styles.gridItem}>
-            <Text style={styles.gridText}>성공 사례</Text>
+            <Typography variant="subtitle" style={[styles.gridText, { backgroundColor: colors.primaryBg }]}>
+              성공 사례
+            </Typography>
           </View>
           <View style={styles.gridItem}>
-            <Text style={styles.gridText}>FAQ</Text>
+            <Typography variant="subtitle" style={[styles.gridText, { backgroundColor: colors.primaryBg }]}>
+              FAQ
+            </Typography>
           </View>
         </View>
       </ScrollView>
@@ -37,18 +54,12 @@ export default function HomeScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
   },
   bannerContainer: {
     height: 200,
-    backgroundColor: '#f0f0f0',
     justifyContent: 'center',
     alignItems: 'center',
     marginBottom: 20,
-  },
-  bannerText: {
-    fontSize: 18,
-    color: '#333',
   },
   gridContainer: {
     flexDirection: 'row',
@@ -62,11 +73,8 @@ const styles = StyleSheet.create({
   },
   gridText: {
     flex: 1,
-    backgroundColor: '#f8f8f8',
     borderRadius: 10,
     padding: 15,
     textAlign: 'center',
-    fontSize: 16,
-    color: '#333',
   },
 });

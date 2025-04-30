@@ -1,5 +1,8 @@
-import { View, Text, StyleSheet, TouchableOpacity, FlatList } from 'react-native';
+import { View, StyleSheet, TouchableOpacity, FlatList } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { useTheme } from './context/ThemeContext';
+import { globalStyles } from './constants/theme';
+import { Typography } from './components/Typography';
 
 const dummyInquiries = [
   { id: '1', title: '카페 창업 문의', date: '2024-04-26' },
@@ -7,12 +10,14 @@ const dummyInquiries = [
 ];
 
 export default function InquiryScreen() {
+  const { colors } = useTheme();
+
   return (
-    <SafeAreaView style={styles.container}>
-      <View style={styles.header}>
-        <Text style={styles.title}>창업 문의</Text>
-        <TouchableOpacity style={styles.newInquiryButton}>
-          <Text style={styles.newInquiryButtonText}>새 문의 작성</Text>
+    <SafeAreaView style={[globalStyles.container, styles.container]}>
+      <View style={[styles.header, { borderBottomColor: colors.primaryLight }]}>
+        <Typography variant="title">창업 문의</Typography>
+        <TouchableOpacity style={[styles.newInquiryButton, { backgroundColor: colors.primary }]}>
+          <Typography style={styles.newInquiryButtonText}>새 문의 작성</Typography>
         </TouchableOpacity>
       </View>
 
@@ -20,9 +25,9 @@ export default function InquiryScreen() {
         data={dummyInquiries}
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => (
-          <TouchableOpacity style={styles.inquiryItem}>
-            <Text style={styles.inquiryTitle}>{item.title}</Text>
-            <Text style={styles.inquiryDate}>{item.date}</Text>
+          <TouchableOpacity style={[styles.inquiryItem, { borderBottomColor: colors.primaryLight }]}>
+            <Typography variant="body">{item.title}</Typography>
+            <Typography variant="caption">{item.date}</Typography>
           </TouchableOpacity>
         )}
         contentContainerStyle={styles.listContainer}
@@ -34,28 +39,19 @@ export default function InquiryScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
   },
   header: {
     padding: 20,
     borderBottomWidth: 1,
-    borderBottomColor: '#eee',
-  },
-  title: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    marginBottom: 15,
   },
   newInquiryButton: {
-    backgroundColor: '#007AFF',
     padding: 10,
     borderRadius: 5,
     alignItems: 'center',
+    marginTop: 15,
   },
   newInquiryButtonText: {
     color: '#fff',
-    fontSize: 16,
-    fontWeight: 'bold',
   },
   listContainer: {
     padding: 20,
@@ -63,14 +59,5 @@ const styles = StyleSheet.create({
   inquiryItem: {
     padding: 15,
     borderBottomWidth: 1,
-    borderBottomColor: '#eee',
-  },
-  inquiryTitle: {
-    fontSize: 16,
-    marginBottom: 5,
-  },
-  inquiryDate: {
-    fontSize: 14,
-    color: '#666',
   },
 });

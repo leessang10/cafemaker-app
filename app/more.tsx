@@ -1,5 +1,8 @@
-import { View, Text, StyleSheet, TouchableOpacity, FlatList } from 'react-native';
+import { View, StyleSheet, TouchableOpacity, FlatList } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { useTheme } from './context/ThemeContext';
+import { globalStyles } from './constants/theme';
+import { Typography } from './components/Typography';
 
 const menuItems = [
   { id: '1', title: '공지사항' },
@@ -14,18 +17,20 @@ const menuItems = [
 ];
 
 export default function MoreScreen() {
+  const { colors } = useTheme();
+
   return (
-    <SafeAreaView style={styles.container}>
-      <View style={styles.header}>
-        <Text style={styles.title}>더보기</Text>
+    <SafeAreaView style={[globalStyles.container, styles.container]}>
+      <View style={[styles.header, { borderBottomColor: colors.primaryLight }]}>
+        <Typography variant="title">더보기</Typography>
       </View>
 
       <FlatList
         data={menuItems}
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => (
-          <TouchableOpacity style={styles.menuItem}>
-            <Text style={styles.menuItemText}>{item.title}</Text>
+          <TouchableOpacity style={[styles.menuItem, { borderBottomColor: colors.primaryLight }]}>
+            <Typography variant="body">{item.title}</Typography>
           </TouchableOpacity>
         )}
         contentContainerStyle={styles.listContainer}
@@ -37,16 +42,10 @@ export default function MoreScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
   },
   header: {
     padding: 20,
     borderBottomWidth: 1,
-    borderBottomColor: '#eee',
-  },
-  title: {
-    fontSize: 24,
-    fontWeight: 'bold',
   },
   listContainer: {
     padding: 10,
@@ -54,9 +53,5 @@ const styles = StyleSheet.create({
   menuItem: {
     padding: 15,
     borderBottomWidth: 1,
-    borderBottomColor: '#eee',
-  },
-  menuItemText: {
-    fontSize: 16,
   },
 });

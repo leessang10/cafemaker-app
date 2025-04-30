@@ -48,6 +48,8 @@
       "eas": {
         "projectId": "9ebb3f02-d45b-4611-acd2-31fb9476a6e1"
       }
-    }
+    },
+    "assetBundlePatterns": ["**/*"],
+    "fonts": ["assets/fonts/Pretendard-Regular.otf", "assets/fonts/Pretendard-Medium.otf", "assets/fonts/Pretendard-Bold.otf"]
   }
 }
