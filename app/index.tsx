@@ -1,4 +1,5 @@
 import React from 'react';
+import { Stack } from 'expo-router';
 import { View, ScrollView, StyleSheet, Dimensions, TouchableOpacity, FlatList } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
@@ -108,8 +109,8 @@ export default function HomeScreen() {
   );
 
   return (
-    <SafeAreaView style={[globalStyles.container, { backgroundColor: colors.gray50 }]}>
-      <ScrollView contentContainerStyle={{ paddingBottom: 32 }}>
+    <SafeAreaView style={[globalStyles.container]} edges={['left', 'right', 'top']}>
+      <ScrollView style={{ backgroundColor: colors.gray50 }}>
         {/* 이벤트 배너 */}
         <View style={styles.eventSection}>
           <FlatList

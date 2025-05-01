@@ -23,7 +23,7 @@ export default function MoreScreen() {
   const { colors } = useTheme();
 
   return (
-    <SafeAreaView style={[globalStyles.container, styles.container]}>
+    <SafeAreaView style={[globalStyles.container]} edges={['left', 'right', 'top']}>
       <View style={[styles.header, { borderBottomColor: colors.primaryLight }]}>
         <Typography variant="title">더보기</Typography>
       </View>

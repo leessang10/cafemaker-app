@@ -9,16 +9,13 @@ export default function AnalysisScreen() {
   const { colors } = useTheme();
 
   return (
-    <SafeAreaView style={[globalStyles.container, styles.container]}>
+    <SafeAreaView style={[globalStyles.container]} edges={['left', 'right', 'top']}>
       <WebView source={{ uri: MONEY_VIEWER_URL }} style={styles.webview} backgroundColor={colors.background} />
     </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
   webview: {
     flex: 1,
     width: '100%',

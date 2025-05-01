@@ -1192,7 +1192,7 @@ export default function EstimateScreen() {
   });
 
   return (
-    <SafeAreaView style={[globalStyles.container, styles.container]}>
+    <SafeAreaView style={[globalStyles.container]} edges={['left', 'right', 'top']}>
       <View style={styles.header}>
         <Typography variant="title">창업 견적</Typography>
       </View>
