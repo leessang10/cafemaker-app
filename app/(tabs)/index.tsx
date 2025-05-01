@@ -1,5 +1,5 @@
 import React from 'react';
-import { Stack } from 'expo-router';
+import { useRouter } from 'expo-router';
 import { View, ScrollView, StyleSheet, Dimensions, TouchableOpacity, FlatList } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
@@ -79,6 +79,7 @@ const faqs = [
 
 export default function HomeScreen() {
   const { colors } = useTheme();
+  const router = useRouter();
 
   const renderEventItem = ({ item }: { item: EventItem }) => (
     <TouchableOpacity style={styles.eventCard}>
@@ -134,11 +135,6 @@ export default function HomeScreen() {
             <Typography variant="subtitle" style={styles.sectionTitle}>
               주요 서비스
             </Typography>
-            <TouchableOpacity>
-              <Typography variant="caption" style={{ color: colors.primary }}>
-                더보기
-              </Typography>
-            </TouchableOpacity>
           </View>
           <FlatList
             data={features}
@@ -167,7 +163,7 @@ export default function HomeScreen() {
             showsHorizontalScrollIndicator={false}
             contentContainerStyle={styles.cardList}
             pagingEnabled
-            snapToInterval={width * 0.7 + 16}
+            snapToInterval={width * 0.8 + 16}
             decelerationRate="fast"
             snapToAlignment="start"
           />
@@ -179,7 +175,7 @@ export default function HomeScreen() {
             <Typography variant="subtitle" style={styles.sectionTitle}>
               창업 가이드
             </Typography>
-            <TouchableOpacity>
+            <TouchableOpacity onPress={() => router.push('/guide')}>
               <Typography variant="caption" style={{ color: colors.primary }}>
                 더보기
               </Typography>
@@ -193,7 +189,7 @@ export default function HomeScreen() {
             showsHorizontalScrollIndicator={false}
             contentContainerStyle={styles.cardList}
             pagingEnabled
-            snapToInterval={width * 0.7 + 16}
+            snapToInterval={width * 0.8 + 16}
             decelerationRate="fast"
             snapToAlignment="start"
           />
@@ -205,7 +201,7 @@ export default function HomeScreen() {
             <Typography variant="subtitle" style={styles.sectionTitle}>
               성공 사례
             </Typography>
-            <TouchableOpacity>
+            <TouchableOpacity onPress={() => router.push('/success')}>
               <Typography variant="caption" style={{ color: colors.primary }}>
                 더보기
               </Typography>
@@ -219,26 +215,25 @@ export default function HomeScreen() {
             showsHorizontalScrollIndicator={false}
             contentContainerStyle={styles.cardList}
             pagingEnabled
-            snapToInterval={width * 0.7 + 16}
+            snapToInterval={width * 0.8 + 16}
             decelerationRate="fast"
             snapToAlignment="start"
           />
         </View>
 
         {/* 공지사항 */}
-        <View style={styles.noticeSection}>
+        <View style={styles.cardSection}>
           <View style={styles.sectionHeader}>
-            <Ionicons name="notifications" size={20} color={COLORS.primary} />
             <Typography variant="subtitle" style={styles.sectionTitle}>
               공지사항
             </Typography>
-            <TouchableOpacity>
+            <TouchableOpacity onPress={() => router.push('/notice')}>
               <Typography variant="caption" style={{ color: COLORS.primary }}>
                 더보기
               </Typography>
             </TouchableOpacity>
           </View>
-          <View style={styles.noticeList}>
+          <View style={[styles.cardList, styles.noticeList]}>
             {notices.map((notice) => (
               <TouchableOpacity key={notice.id} style={styles.noticeItem} activeOpacity={0.7}>
                 <Typography variant="body" style={{ flex: 1 }}>
@@ -258,7 +253,7 @@ export default function HomeScreen() {
             <Typography variant="subtitle" style={styles.sectionTitle}>
               자주 묻는 질문
             </Typography>
-            <TouchableOpacity>
+            <TouchableOpacity onPress={() => router.push('/faq')}>
               <Typography variant="caption" style={{ color: COLORS.primary }}>
                 더보기
               </Typography>
@@ -326,12 +321,12 @@ const styles = StyleSheet.create({
   },
   cardSection: {
     marginBottom: 32,
+    paddingHorizontal: 24,
   },
   sectionHeader: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    paddingHorizontal: 24,
     marginBottom: 16,
   },
   sectionTitle: {
@@ -339,10 +334,10 @@ const styles = StyleSheet.create({
     fontWeight: '600',
   },
   cardList: {
-    paddingHorizontal: 24,
+    paddingHorizontal: 0,
   },
   cardItem: {
-    width: width * 0.7,
+    width: width * 0.8,
     marginRight: 16,
     borderWidth: 1,
     borderColor: COLORS.gray200,
@@ -362,10 +357,6 @@ const styles = StyleSheet.create({
   },
   cardArrow: {
     alignSelf: 'flex-end',
-  },
-  noticeSection: {
-    marginBottom: 32,
-    paddingHorizontal: 24,
   },
   noticeList: {
     backgroundColor: COLORS.background,
