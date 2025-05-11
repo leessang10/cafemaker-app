@@ -1,9 +1,9 @@
 import { Text, View } from 'react-native';
 
-export default function HomePage() {
+export default function MarketAnalysisPage() {
   return (
     <View>
-      <Text>홈</Text>
+      <Text>상권분석</Text>
     </View>
   );
 }

@@ -1,9 +1,9 @@
 import { Text, View } from 'react-native';
 
-export default function HomePage() {
+export default function EstimatePage() {
   return (
     <View>
-      <Text>홈</Text>
+      <Text>창업견적</Text>
     </View>
   );
 }
