@@ -4,33 +4,69 @@ export default function MoreLayout() {
   return (
     <Stack>
       <Stack.Screen
-        name="index"
+        name="notice/index"
         options={{
           headerShown: false,
         }}
       />
       <Stack.Screen
-        name="notice"
+        name="notice/[id]"
         options={{
-          headerTitle: '공지사항',
+          headerShown: false,
         }}
       />
       <Stack.Screen
-        name="faq"
+        name="faq/index"
         options={{
-          headerTitle: 'FAQ',
+          headerShown: false,
         }}
       />
       <Stack.Screen
-        name="success"
+        name="faq/[id]"
         options={{
-          headerTitle: '성공사례',
+          headerShown: false,
         }}
       />
       <Stack.Screen
-        name="event"
+        name="success/index"
         options={{
-          headerTitle: '이벤트',
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="success/[id]"
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="event/index"
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="event/[id]"
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="profile/index"
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="terms/index"
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="settings/index"
+        options={{
+          headerShown: false,
         }}
       />
     </Stack>

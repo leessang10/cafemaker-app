@@ -1,23 +1,62 @@
-import { Link } from 'expo-router';
-import { Pressable, Text, View } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
+import { Link, useRouter } from 'expo-router';
+import { FlatList, Pressable, StyleSheet, Text, View } from 'react-native';
 
 const MOCK_NOTICES = [
-  { id: 1, title: '공지사항 1' },
-  { id: 2, title: '공지사항 2' },
-  { id: 3, title: '공지사항 3' },
+  { id: 1, title: '공지사항 1', date: '2024-06-01' },
+  { id: 2, title: '공지사항 2', date: '2024-05-28' },
+  { id: 3, title: '공지사항 3', date: '2024-05-20' },
 ];
 
 export default function NoticeListPage() {
+  const router = useRouter();
+  const handleBack = () => {
+    router.replace('/more');
+  };
+
   return (
-    <View>
-      <Text>공지사항 목록</Text>
-      {MOCK_NOTICES.map((notice) => (
-        <Link key={notice.id} href={`/notice/${notice.id}`} asChild>
-          <Pressable>
-            <Text>{notice.title}</Text>
-          </Pressable>
-        </Link>
-      ))}
+    <View style={styles.container}>
+      <View style={styles.header}>
+        <Pressable onPress={handleBack} style={styles.backBtn} hitSlop={10}>
+          <Ionicons name="chevron-back" size={28} color="#222" />
+        </Pressable>
+        <Text style={styles.headerTitle}>공지사항</Text>
+      </View>
+      <FlatList
+        data={MOCK_NOTICES}
+        keyExtractor={(item) => item.id.toString()}
+        renderItem={({ item }) => (
+          <Link href={`/notice/${item.id}`} asChild>
+            <Pressable style={styles.card}>
+              <Text style={styles.title}>{item.title}</Text>
+              <Text style={styles.date}>{item.date}</Text>
+              <Ionicons name="chevron-forward" size={20} color="#aaa" style={{ position: 'absolute', right: 16, top: 24 }} />
+            </Pressable>
+          </Link>
+        )}
+        contentContainerStyle={{ padding: 16 }}
+      />
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  container: { flex: 1, backgroundColor: '#f5f5f5' },
+  header: { height: 60, flexDirection: 'row', alignItems: 'center', backgroundColor: '#fff', borderBottomWidth: 1, borderBottomColor: '#eee', paddingHorizontal: 8 },
+  backBtn: { padding: 4, marginRight: 4 },
+  headerTitle: { fontSize: 20, fontWeight: 'bold', color: '#222', marginLeft: 8 },
+  card: {
+    backgroundColor: '#fff',
+    borderRadius: 10,
+    padding: 20,
+    marginBottom: 12,
+    elevation: 2,
+    shadowColor: '#000',
+    shadowOpacity: 0.05,
+    shadowRadius: 4,
+    shadowOffset: { width: 0, height: 2 },
+    position: 'relative',
+  },
+  title: { fontSize: 16, fontWeight: 'bold', color: '#222' },
+  date: { fontSize: 12, color: '#888', marginTop: 6 },
+});
