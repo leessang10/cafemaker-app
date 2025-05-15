@@ -1,23 +1,33 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  content: ['./App.{js,ts,tsx}', './app/**/*.{js,ts,tsx}', './components/**/*.{js,ts,tsx}'],
-  presets: [require('nativewind/preset')],
+  content: ['./app/**/*.{js,ts,jsx,tsx,mdx}', './src/**/*.{js,ts,jsx,tsx,mdx}'],
   theme: {
     extend: {
       colors: {
-        primary: '#3B82F6', // 파란색
-        secondary: '#F59E0B', // 노란색
-        gray: {
-          100: '#F5F5F5',
-          200: '#E5E5E5',
-          300: '#D4D4D4',
-          400: '#A3A3A3',
-          500: '#737373',
-          600: '#525252',
-          700: '#404040',
-          800: '#262626',
-          900: '#171717',
+        blue: {
+          50: '#EBF5FF',
+          100: '#E1EFFE',
+          200: '#C3DDFD',
+          300: '#A4CAFE',
+          400: '#76A9FA',
+          500: '#3F83F8',
+          600: '#1C64F2',
+          700: '#1A56DB',
+          800: '#1E429F',
+          900: '#233876',
         },
+      },
+      spacing: {
+        72: '18rem',
+        84: '21rem',
+        96: '24rem',
+      },
+      borderRadius: {
+        xl: '1rem',
+        '2xl': '1.5rem',
+      },
+      boxShadow: {
+        lg: '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)',
       },
     },
   },
