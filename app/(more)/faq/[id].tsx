@@ -1,20 +1,39 @@
 import { Ionicons } from '@expo/vector-icons';
 import { useLocalSearchParams, useRouter } from 'expo-router';
+import { useEffect, useState } from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
+import { supabase } from '../../../lib/supabase';
 
-const MOCK_DETAIL = {
-  1: { title: 'FAQ 1', content: 'FAQ 1의 상세 내용입니다.' },
-  2: { title: 'FAQ 2', content: 'FAQ 2의 상세 내용입니다.' },
-  3: { title: 'FAQ 3', content: 'FAQ 3의 상세 내용입니다.' },
+type FAQDetail = {
+  title: string;
+  content: string;
 };
 
 export default function FAQDetailPage() {
   const { id } = useLocalSearchParams();
   const router = useRouter();
-  let faq = undefined;
-  if (typeof id === 'string') {
-    faq = MOCK_DETAIL[parseInt(id) as keyof typeof MOCK_DETAIL];
-  }
+  const [faq, setFaq] = useState<FAQDetail | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    if (typeof id === 'string') {
+      fetchFaqDetail(id);
+    }
+  }, [id]);
+
+  const fetchFaqDetail = async (faqId: string) => {
+    try {
+      const { data, error } = await supabase.from('faqs').select('title, content').eq('id', faqId).single();
+
+      if (error) throw error;
+      setFaq(data);
+    } catch (error) {
+      console.error('Error fetching FAQ detail:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <View style={styles.container}>
       <View style={styles.header}>

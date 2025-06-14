@@ -1,18 +1,39 @@
 import { Ionicons } from '@expo/vector-icons';
 import { Link, useRouter } from 'expo-router';
+import { useEffect, useState } from 'react';
 import { FlatList, Pressable, StyleSheet, Text, View } from 'react-native';
-
-const MOCK_FAQS = [
-  { id: 1, title: 'FAQ 1' },
-  { id: 2, title: 'FAQ 2' },
-  { id: 3, title: 'FAQ 3' },
-];
+import { supabase } from '../../../lib/supabase';
+type FAQ = {
+  id: string;
+  title: string;
+};
 
 export default function FAQListPage() {
   const router = useRouter();
+  const [faqs, setFaqs] = useState<FAQ[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetchFaqs();
+  }, []);
+
+  const fetchFaqs = async () => {
+    try {
+      const { data, error } = await supabase.from('faqs').select('id, title').order('order_index', { ascending: true });
+
+      if (error) throw error;
+      setFaqs(data || []);
+    } catch (error) {
+      console.error('Error fetching FAQs:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const handleBack = () => {
     router.replace('/more');
   };
+
   return (
     <View style={styles.container}>
       <View style={styles.header}>
@@ -22,8 +43,8 @@ export default function FAQListPage() {
         <Text style={styles.headerTitle}>FAQ</Text>
       </View>
       <FlatList
-        data={MOCK_FAQS}
-        keyExtractor={(item) => item.id.toString()}
+        data={faqs}
+        keyExtractor={(item) => item.id}
         renderItem={({ item }) => (
           <Link href={`/faq/${item.id}`} asChild>
             <Pressable style={styles.card}>

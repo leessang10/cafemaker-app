@@ -1,9 +1,32 @@
 import { useRouter } from 'expo-router';
+import { useEffect, useState } from 'react';
 import { ScrollView, Text, TouchableOpacity, View } from 'react-native';
 import '../global.css';
+import { supabase } from '../lib/supabase';
+
+type FAQ = {
+  id: string;
+  title: string;
+};
 
 export default function HomePage() {
   const router = useRouter();
+  const [faqs, setFaqs] = useState<FAQ[]>([]);
+
+  useEffect(() => {
+    fetchFaqs();
+  }, []);
+
+  const fetchFaqs = async () => {
+    try {
+      const { data, error } = await supabase.from('faqs').select('id, title').order('order_index', { ascending: true }).limit(3);
+
+      if (error) throw error;
+      setFaqs(data || []);
+    } catch (error) {
+      console.error('Error fetching FAQs:', error);
+    }
+  };
 
   return (
     <ScrollView className={styles.container}>
@@ -95,15 +118,11 @@ export default function HomePage() {
           </TouchableOpacity>
         </View>
         <View className={styles.faqList}>
-          <TouchableOpacity className={styles.faqItem} onPress={() => router.push('/faq/1')}>
-            <Text className={styles.faqQuestion}>Q. 창업 비용은 얼마나 필요한가요?</Text>
-          </TouchableOpacity>
-          <TouchableOpacity className={styles.faqItem} onPress={() => router.push('/faq/2')}>
-            <Text className={styles.faqQuestion}>Q. 카페 창업 절차가 궁금해요</Text>
-          </TouchableOpacity>
-          <TouchableOpacity className={styles.faqItem} onPress={() => router.push('/faq/3')}>
-            <Text className={styles.faqQuestion}>Q. 직원 채용은 어떻게 하나요?</Text>
-          </TouchableOpacity>
+          {faqs.map((faq) => (
+            <TouchableOpacity key={faq.id} className={styles.faqItem} onPress={() => router.push(`/faq/${faq.id}`)}>
+              <Text className={styles.faqQuestion}>Q. {faq.title}</Text>
+            </TouchableOpacity>
+          ))}
         </View>
       </View>
     </ScrollView>
