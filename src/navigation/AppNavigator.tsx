@@ -11,21 +11,21 @@ import OnboardingScreen from '@screens/OnboardingScreen';
 
 import HomeScreen from '@screens/HomeScreen';
 
-const ChatScreen = () => (
+const MarketAnalysisScreen = () => (
   <View className="flex-1 justify-center items-center bg-white dark:bg-gray-900">
-    <Text className="text-lg font-semibold text-gray-900 dark:text-white">Chat Screen</Text>
+    <Text className="text-lg font-semibold text-gray-900 dark:text-white">상권분석 Screen</Text>
   </View>
 );
 
-const FAQScreen = () => (
+const EstimateScreen = () => (
   <View className="flex-1 justify-center items-center bg-white dark:bg-gray-900">
-    <Text className="text-lg font-semibold text-gray-900 dark:text-white">FAQ Screen</Text>
+    <Text className="text-lg font-semibold text-gray-900 dark:text-white">카페견적 Screen</Text>
   </View>
 );
 
-const ProfileScreen = () => (
+const ConsultationScreen = () => (
   <View className="flex-1 justify-center items-center bg-white dark:bg-gray-900">
-    <Text className="text-lg font-semibold text-gray-900 dark:text-white">Profile Screen</Text>
+    <Text className="text-lg font-semibold text-gray-900 dark:text-white">창업문의 Screen</Text>
   </View>
 );
 
@@ -46,14 +46,14 @@ const TabNavigator = () => {
             case 'Home':
               iconName = focused ? 'home' : 'home-outline';
               break;
-            case 'Chat':
+            case 'MarketAnalysis':
+              iconName = focused ? 'analytics' : 'analytics-outline';
+              break;
+            case 'Estimate':
+              iconName = focused ? 'calculator' : 'calculator-outline';
+              break;
+            case 'Consultation':
               iconName = focused ? 'chatbubbles' : 'chatbubbles-outline';
-              break;
-            case 'FAQ':
-              iconName = focused ? 'help-circle' : 'help-circle-outline';
-              break;
-            case 'Profile':
-              iconName = focused ? 'person' : 'person-outline';
               break;
             case 'More':
               iconName = focused ? 'menu' : 'menu-outline';
@@ -88,19 +88,19 @@ const TabNavigator = () => {
         options={{ title: '홈' }} 
       />
       <Tab.Screen 
-        name="Chat" 
-        component={ChatScreen} 
-        options={{ title: '상담' }} 
+        name="MarketAnalysis" 
+        component={MarketAnalysisScreen} 
+        options={{ title: '상권분석' }} 
       />
       <Tab.Screen 
-        name="FAQ" 
-        component={FAQScreen} 
-        options={{ title: 'FAQ' }} 
+        name="Estimate" 
+        component={EstimateScreen} 
+        options={{ title: '카페견적' }} 
       />
       <Tab.Screen 
-        name="Profile" 
-        component={ProfileScreen} 
-        options={{ title: '프로필' }} 
+        name="Consultation" 
+        component={ConsultationScreen} 
+        options={{ title: '창업문의' }} 
       />
       <Tab.Screen 
         name="More" 
