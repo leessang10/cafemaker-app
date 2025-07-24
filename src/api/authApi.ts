@@ -1,4 +1,4 @@
-import { supabase } from '@utils/supabase';
+import { supabase } from '@/utils/supabase';
 import { SignUpPayload, SignInPayload } from '@/types/authTypes';
 
 export const authApi = {

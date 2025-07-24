@@ -12,7 +12,7 @@ import { Ionicons } from '@expo/vector-icons';
 
 import { useAuthStore } from '@/store/authStore';
 import { useAppStore } from '@/store/appStore';
-import { supabase } from '@utils/supabase';
+import { supabase } from '@/utils/supabase';
 
 interface OnboardingData {
   businessName: string;
