@@ -86,7 +86,7 @@ export default function AuthScreen() {
         if (error) throw error;
 
         if (data.session) {
-          setSession(data.session as any);
+          setSession(data.session);
         }
       } else {
         // Sign Up
@@ -103,7 +103,7 @@ export default function AuthScreen() {
         if (error) throw error;
 
         if (data.session) {
-          setSession(data.session as any);
+          setSession(data.session);
         } else {
           Alert.alert(
             '회원가입 완료',

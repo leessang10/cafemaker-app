@@ -11,20 +11,9 @@ export interface SignInPayload {
   password: string;
 }
 
-export interface AuthUser extends User {
-  user_metadata?: {
-    full_name?: string;
-    avatar_url?: string;
-  };
-}
-
-export interface AuthSession extends Session {
-  user: AuthUser;
-}
-
 export interface AuthState {
-  user: AuthUser | null;
-  session: AuthSession | null;
+  user: User | null;
+  session: Session | null;
   loading: boolean;
   error: string | null;
 }

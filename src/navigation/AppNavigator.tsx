@@ -7,6 +7,7 @@ import { View, Text } from 'react-native';
 import { useAuthStore } from '@/store/authStore';
 import { useAppStore } from '@/store/appStore';
 import AuthScreen from '@screens/AuthScreen';
+import OnboardingScreen from '@screens/OnboardingScreen';
 
 // Placeholder screens (will be implemented later)
 const HomeScreen = () => (
@@ -36,12 +37,6 @@ const ProfileScreen = () => (
 const MoreScreen = () => (
   <View className="flex-1 justify-center items-center bg-white dark:bg-gray-900">
     <Text className="text-lg font-semibold text-gray-900 dark:text-white">More Screen</Text>
-  </View>
-);
-
-const OnboardingScreen = () => (
-  <View className="flex-1 justify-center items-center bg-white dark:bg-gray-900">
-    <Text className="text-lg font-semibold text-gray-900 dark:text-white">Onboarding Screen</Text>
   </View>
 );
 

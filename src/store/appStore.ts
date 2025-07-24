@@ -14,6 +14,7 @@ interface AppStore {
   // Actions
   setTheme: (theme: 'light' | 'dark' | 'system') => void;
   setOnboardingCompleted: (completed: boolean) => void;
+  completeOnboarding: () => void;
   updateNotificationSettings: (settings: Partial<AppStore['notificationSettings']>) => void;
   initializeTheme: () => void;
 }
@@ -41,6 +42,8 @@ export const useAppStore = create<AppStore>((set, get) => ({
   },
 
   setOnboardingCompleted: (completed) => set({ isOnboardingCompleted: completed }),
+
+  completeOnboarding: () => set({ isOnboardingCompleted: true }),
 
   updateNotificationSettings: (settings) =>
     set((state) => ({

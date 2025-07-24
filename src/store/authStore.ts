@@ -1,15 +1,15 @@
 import { create } from 'zustand';
-import { AuthUser, AuthSession } from '@types/authTypes';
+import { User, Session } from '@supabase/supabase-js';
 
 interface AuthStore {
-  user: AuthUser | null;
-  session: AuthSession | null;
+  user: User | null;
+  session: Session | null;
   loading: boolean;
   error: string | null;
   
   // Actions
-  setUser: (user: AuthUser | null) => void;
-  setSession: (session: AuthSession | null) => void;
+  setUser: (user: User | null) => void;
+  setSession: (session: Session | null) => void;
   setLoading: (loading: boolean) => void;
   setError: (error: string | null) => void;
   clearAuth: () => void;
