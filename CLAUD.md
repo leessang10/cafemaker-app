@@ -68,4 +68,120 @@
 * **상태관리 & 데이터 패칭**: React Query
 * **지도 & 시각화**: react-native-maps, victory-native
 * **네비게이션**: React Navigation(bottom-tabs: Home, Chat, FAQ, Profile, More)
+* **전역 상태 관리**:
+
+    * React Query: 서버 상태, 데이터 캐싱
+    * Zustand: 클라이언트 상태 스토어
+    * Supabase Realtime Subscription: 실시간 업데이트
 * **환경관리**: dotenv, babel-plugin-module-resolver
+
+## 4. 디자인 & UI 라이브러리
+
+* **스타일링**: NativeWind (Tailwind 문법 기반, 동적 스타일 및 자동 완성 지원)
+* **아이콘**: react-native-vector-icons (FontAwesome, Ionicons 등 지원)
+* **애니메이션 & 제스처**:
+
+    * React Native Reanimated (고성능 애니메이션)
+    * React Native Gesture Handler (제스처 처리)
+
+## 5. 테마 관리
+
+NativeWind의 테마 시스템을 활용:
+
+1. **Tailwind 설정(tailwind.config.js)**
+
+   ```js
+   module.exports = {
+     content: ['./App.{js,jsx,ts,tsx}', './src/**/*.{js,jsx,ts,tsx}'],
+     theme: {
+       extend: {
+         colors: { primary: '#1f2937', secondary: '#f59e0b' },
+         fontFamily: { sans: ['Roboto', 'sans-serif'] },
+       },
+     },
+     darkMode: 'media',
+   };
+   ```
+2. **다크 모드**: React Native `useColorScheme()` 또는 `Appearance` API로 감지하여 `dark:` 클래스 사용
+3. **사용자 테마 선택**: Zustand 스토어에 테마 모드 저장 후 `className` 동적 적용
+
+## 6. 디렉토리 구조
+
+Flat 구조로 API 파일은 `api/`에 고유한 이름만 쓰고 관리 부담을 최소화:
+
+```
+/src
+ ├ api/
+ │   ├ authApi.ts         # 로그인/회원가입/세션 관리 함수
+ │   ├ estimateApi.ts     # 견적 생성·조회 함수
+ │   ├ chatApi.ts         # 채팅 메시지 송수신 함수
+ │   ├ profileApi.ts      # My Data 프로필 관리 함수
+ │   └ marketApi.ts       # 상권 분석 링크 요청 함수
+ ├ components/
+ │   ├ Auth/
+ │   ├ Chat/
+ │   ├ FAQ/
+ │   ├ Notice/
+ │   ├ Event/
+ │   └ UI/
+ ├ navigation/
+ │   └ AppNavigator.tsx   # bottom-tabs 구성
+ ├ screens/
+ │   ├ OnboardingScreen.tsx
+ │   ├ HomeScreen.tsx      # 공지·이벤트·성공사례 대시보드
+ │   ├ MarketLinkScreen.tsx
+ │   ├ EstimateScreen.tsx
+ │   ├ ChatScreen.tsx
+ │   ├ FAQScreen.tsx
+ │   ├ NoticeScreen.tsx
+ │   ├ EventScreen.tsx
+ │   └ ProfileScreen.tsx
+ ├ types/
+ │   ├ authTypes.ts
+ │   ├ estimateTypes.ts
+ │   ├ chatTypes.ts
+ │   ├ profileTypes.ts
+ │   └ marketTypes.ts
+ └ utils/
+     └ helpers.ts
+```
+
+## 7. 타입 관리
+
+도메인별 타입 분리 방식(파일명 접미사 `Types.ts`) 채택:
+
+```
+/src/types/
+ ├ authTypes.ts       # 로그인/인증 타입
+ ├ estimateTypes.ts   # 견적 생성·조회 타입
+ ├ chatTypes.ts       # 채팅 타입
+ ├ profileTypes.ts    # 프로필 관리 타입
+ └ marketTypes.ts     # 상권 분석 링크 요청 타입
+```
+
+* **장점**: 파일명만 보고 도메인과 역할 파악 용이
+* **Import 예시**:
+
+  ```ts
+  import { SignInPayload } from 'types/authTypes';
+  ```
+
+## 8. 헬퍼 함수 (단일 파일)
+
+`utils/helpers.ts`에 헬퍼 함수 모아:
+
+1. formatPrice(amount: number): string
+2. formatDate(date: Date, format?: string): string
+3. calculateTotalCost(items: { price: number; quantity: number }\[]): number
+4. debounce(func, delay?): func
+5. throttle(func, limit?): func
+6. getGeoCoordinates(address: string): Promise<{ latitude: number; longitude: number }>
+7. validateEmail(email: string): boolean
+8. sanitizeInput(input: string): string
+
+## 9. 컴포넌트 폴더 관리
+
+* **공통(UI) 컴포넌트 (`components/UI`)**: 버튼, 카드, 입력 폼 등 재사용 컴포넌트
+* **도메인별 컴포넌트**: `components/Auth`, `components/Chat` 등 기능별 폴더로 분리
+* **Container vs Presentational**: 로직 처리 컴포넌트와 UI 컴포넌트를 구분
+* **Atomic 디자인 (선택)**: `components/atoms`, `molecules`, `organisms` 구조로 확장 가능
