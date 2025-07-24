@@ -38,3 +38,4 @@ yarn-error.*
 
 .mcp.json
 /.idea
+/docs/references

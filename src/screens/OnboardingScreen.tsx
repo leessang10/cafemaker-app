@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   View,
   Text,
@@ -6,13 +6,18 @@ import {
   TouchableOpacity,
   TextInput,
   Alert,
+  ImageBackground,
+  Dimensions,
 } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import { Ionicons } from '@expo/vector-icons';
+import { LinearGradient } from 'expo-linear-gradient';
 
 import { useAuthStore } from '@/store/authStore';
 import { useAppStore } from '@/store/appStore';
 import { supabase } from '@/utils/supabase';
+
+const { width } = Dimensions.get('window');
 
 interface OnboardingData {
   businessName: string;
@@ -49,6 +54,7 @@ const budgetRanges = [
 export default function OnboardingScreen() {
   const [currentStep, setCurrentStep] = useState(0);
   const [loading, setLoading] = useState(false);
+  const [checkingProfile, setCheckingProfile] = useState(true);
   const [data, setData] = useState<OnboardingData>({
     businessName: '',
     businessType: '',
@@ -63,6 +69,45 @@ export default function OnboardingScreen() {
 
   const totalSteps = 5;
 
+  // Check if user already completed onboarding
+  useEffect(() => {
+    checkExistingProfile();
+  }, []);
+
+  const checkExistingProfile = async () => {
+    try {
+      setCheckingProfile(true);
+      const { data: profile, error } = await supabase
+        .from('profiles')
+        .select('preferences, store_name, store_address')
+        .eq('id', user?.id)
+        .single();
+
+      if (!error && profile?.preferences?.onboarding_completed) {
+        // User already completed onboarding
+        completeOnboarding();
+        return;
+      }
+
+      // Load existing data if any
+      if (profile?.preferences) {
+        const prefs = profile.preferences;
+        setData({
+          businessName: profile.store_name || '',
+          businessType: prefs.business_type || '',
+          businessLocation: profile.store_address || '',
+          experience: prefs.experience_level || '',
+          budget: prefs.budget_range || '',
+          goals: prefs.goals || '',
+        });
+      }
+    } catch (error) {
+      console.error('Error checking profile:', error);
+    } finally {
+      setCheckingProfile(false);
+    }
+  };
+
   const handleNext = () => {
     if (currentStep < totalSteps - 1) {
       setCurrentStep(currentStep + 1);
@@ -75,6 +120,23 @@ export default function OnboardingScreen() {
     if (currentStep > 0) {
       setCurrentStep(currentStep - 1);
     }
+  };
+
+  const handleSkip = () => {
+    Alert.alert(
+      '온보딩 건너뛰기',
+      '나중에 프로필에서 정보를 입력할 수 있습니다. 건너뛰시겠습니까?',
+      [
+        { text: '취소', style: 'cancel' },
+        {
+          text: '건너뛰기',
+          style: 'default',
+          onPress: () => {
+            completeOnboarding();
+          },
+        },
+      ]
+    );
   };
 
   const handleComplete = async () => {
@@ -175,22 +237,22 @@ export default function OnboardingScreen() {
         return (
           <View className="space-y-6">
             <View className="items-center mb-8">
-              <View className="w-16 h-16 bg-primary-500 rounded-full items-center justify-center mb-4">
+              <View className="w-16 h-16 bg-black rounded-full items-center justify-center mb-4">
                 <Ionicons name="business" size={24} color="white" />
               </View>
-              <Text className="text-2xl font-bold text-gray-900 dark:text-white text-center">
+              <Text className="text-2xl font-bold text-gray-900 text-center">
                 사업명을 알려주세요
               </Text>
-              <Text className="text-gray-600 dark:text-gray-400 text-center mt-2">
+              <Text className="text-gray-600 text-center mt-2">
                 어떤 이름으로 사업을 시작하시나요?
               </Text>
             </View>
 
             <View>
               <TextInput
-                className="w-full px-4 py-4 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white text-lg"
+                className="w-full px-4 py-4 border border-gray-300 rounded-lg bg-white text-gray-900 text-lg"
                 placeholder="예: 따뜻한 카페, 맛있는 베이커리"
-                placeholderTextColor={currentTheme === 'dark' ? '#9CA3AF' : '#6B7280'}
+                placeholderTextColor="#6B7280"
                 value={data.businessName}
                 onChangeText={(text) => setData({ ...data, businessName: text })}
                 autoCapitalize="words"
@@ -204,13 +266,13 @@ export default function OnboardingScreen() {
         return (
           <View className="space-y-6">
             <View className="items-center mb-8">
-              <View className="w-16 h-16 bg-primary-500 rounded-full items-center justify-center mb-4">
+              <View className="w-16 h-16 bg-black rounded-full items-center justify-center mb-4">
                 <Ionicons name="storefront" size={24} color="white" />
               </View>
-              <Text className="text-2xl font-bold text-gray-900 dark:text-white text-center">
+              <Text className="text-2xl font-bold text-gray-900 text-center">
                 사업 유형을 선택해주세요
               </Text>
-              <Text className="text-gray-600 dark:text-gray-400 text-center mt-2">
+              <Text className="text-gray-600 text-center mt-2">
                 어떤 종류의 사업을 계획하고 계신가요?
               </Text>
             </View>
@@ -221,20 +283,20 @@ export default function OnboardingScreen() {
                   key={type.id}
                   className={`w-full p-4 rounded-lg border-2 flex-row items-center ${
                     data.businessType === type.id
-                      ? 'border-primary-500 bg-primary-50 dark:bg-primary-900/20'
-                      : 'border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800'
+                      ? 'border-black bg-gray-50'
+                      : 'border-gray-300 bg-white'
                   }`}
                   onPress={() => setData({ ...data, businessType: type.id })}
                 >
                   <Ionicons
                     name={type.icon as any}
                     size={24}
-                    color={data.businessType === type.id ? '#3B82F6' : (currentTheme === 'dark' ? '#9CA3AF' : '#6B7280')}
+                    color={data.businessType === type.id ? '#000' : '#6B7280'}
                   />
                   <Text className={`ml-3 text-lg font-medium ${
                     data.businessType === type.id
-                      ? 'text-primary-600 dark:text-primary-400'
-                      : 'text-gray-900 dark:text-white'
+                      ? 'text-black'
+                      : 'text-gray-900'
                   }`}>
                     {type.label}
                   </Text>
@@ -248,10 +310,10 @@ export default function OnboardingScreen() {
         return (
           <View className="space-y-6">
             <View className="items-center mb-8">
-              <View className="w-16 h-16 bg-primary-500 rounded-full items-center justify-center mb-4">
+              <View className="w-16 h-16 bg-black rounded-full items-center justify-center mb-4">
                 <Ionicons name="location" size={24} color="white" />
               </View>
-              <Text className="text-2xl font-bold text-gray-900 dark:text-white text-center">
+              <Text className="text-2xl font-bold text-gray-900 text-center">
                 사업 지역을 알려주세요
               </Text>
               <Text className="text-gray-600 dark:text-gray-400 text-center mt-2">
@@ -373,67 +435,109 @@ export default function OnboardingScreen() {
     }
   };
 
-  return (
-    <View className="flex-1 bg-white dark:bg-gray-900">
-      <StatusBar style={currentTheme === 'dark' ? 'light' : 'dark'} />
-      
-      {/* Progress Bar */}
-      <View className="px-6 pt-12 pb-4">
-        <View className="flex-row items-center justify-between mb-4">
-          <Text className="text-sm font-medium text-gray-600 dark:text-gray-400">
-            {currentStep + 1} / {totalSteps}
-          </Text>
-          <Text className="text-sm font-medium text-primary-600 dark:text-primary-400">
-            {Math.round(((currentStep + 1) / totalSteps) * 100)}%
-          </Text>
-        </View>
-        <View className="h-2 bg-gray-200 dark:bg-gray-700 rounded-full">
-          <View 
-            className="h-2 bg-primary-500 rounded-full"
-            style={{ width: `${((currentStep + 1) / totalSteps) * 100}%` }}
-          />
-        </View>
-      </View>
-
-      <ScrollView
-        contentContainerStyle={{ flexGrow: 1 }}
-        className="flex-1 px-6"
-        showsVerticalScrollIndicator={false}
+  if (checkingProfile) {
+    return (
+      <ImageBackground
+        source={{ uri: 'https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=800&q=80' }}
+        className="flex-1"
+        resizeMode="cover"
       >
-        <View className="flex-1 justify-center py-8">
-          {renderStep()}
-        </View>
-      </ScrollView>
+        <LinearGradient
+          colors={['rgba(0,0,0,0.4)', 'rgba(0,0,0,0.7)']}
+          className="flex-1 justify-center items-center px-6"
+        >
+          <StatusBar style="light" />
+          <View className="w-20 h-20 bg-white/20 backdrop-blur rounded-2xl items-center justify-center mb-6">
+            <View className="w-12 h-12 bg-white rounded-xl items-center justify-center">
+              <Text className="text-2xl">☕</Text>
+            </View>
+          </View>
+          <Text className="text-white text-2xl font-bold mb-4">CafeMaker</Text>
+          <Text className="text-white/80 text-center">프로필을 확인하는 중...</Text>
+        </LinearGradient>
+      </ImageBackground>
+    );
+  }
 
-      {/* Navigation Buttons */}
-      <View className="px-6 pb-8 pt-4 border-t border-gray-200 dark:border-gray-700">
-        <View className="flex-row space-x-4">
-          {currentStep > 0 && (
-            <TouchableOpacity
-              className="flex-1 py-4 border border-gray-300 dark:border-gray-600 rounded-lg"
-              onPress={handleBack}
-            >
-              <Text className="text-center font-semibold text-gray-700 dark:text-gray-300">
-                이전
-              </Text>
-            </TouchableOpacity>
-          )}
-          
-          <TouchableOpacity
-            className={`flex-1 py-4 rounded-lg ${
-              canProceed() && !loading
-                ? 'bg-primary-500'
-                : 'bg-gray-400 dark:bg-gray-600'
-            }`}
-            onPress={handleNext}
-            disabled={!canProceed() || loading}
-          >
-            <Text className="text-white text-center font-semibold">
-              {loading ? '저장 중...' : currentStep === totalSteps - 1 ? '완료' : '다음'}
+  return (
+    <ImageBackground
+      source={{ uri: 'https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=800&q=80' }}
+      className="flex-1"
+      resizeMode="cover"
+    >
+      <LinearGradient
+        colors={['rgba(0,0,0,0.4)', 'rgba(0,0,0,0.7)']}
+        className="flex-1"
+      >
+        <StatusBar style="light" />
+        
+        {/* Header with Skip Button */}
+        <View className="flex-row justify-between items-center px-6 pt-12 pb-4">
+          <View>
+            <Text className="text-white font-medium">
+              {currentStep + 1} / {totalSteps}
             </Text>
+          </View>
+          <TouchableOpacity onPress={handleSkip}>
+            <Text className="text-white/80 font-medium underline">건너뛰기</Text>
           </TouchableOpacity>
         </View>
-      </View>
-    </View>
+
+        {/* Progress Bar */}
+        <View className="px-6 mb-6">
+          <View className="h-1 bg-white/20 rounded-full">
+            <View 
+              className="h-1 bg-white rounded-full"
+              style={{ width: `${((currentStep + 1) / totalSteps) * 100}%` }}
+            />
+          </View>
+        </View>
+
+        {/* Content */}
+        <ScrollView
+          contentContainerStyle={{ flexGrow: 1 }}
+          className="flex-1 px-6"
+          showsVerticalScrollIndicator={false}
+        >
+          <View className="flex-1 justify-center">
+            <View className="bg-white/95 backdrop-blur rounded-2xl p-6 shadow-xl">
+              {renderStep()}
+            </View>
+          </View>
+        </ScrollView>
+
+        {/* Navigation Buttons */}
+        <View className="px-6 pb-12 pt-6">
+          <View className="flex-row space-x-4">
+            {currentStep > 0 && (
+              <TouchableOpacity
+                className="flex-1 py-4 border-2 border-white/30 rounded-full"
+                onPress={handleBack}
+              >
+                <Text className="text-center font-semibold text-white">
+                  이전
+                </Text>
+              </TouchableOpacity>
+            )}
+            
+            <TouchableOpacity
+              className={`flex-1 py-4 rounded-full ${
+                canProceed() && !loading
+                  ? 'bg-white'
+                  : 'bg-white/50'
+              }`}
+              onPress={handleNext}
+              disabled={!canProceed() || loading}
+            >
+              <Text className={`text-center font-semibold ${
+                canProceed() && !loading ? 'text-black' : 'text-gray-400'
+              }`}>
+                {loading ? '저장 중...' : currentStep === totalSteps - 1 ? '완료' : '다음'}
+              </Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </LinearGradient>
+    </ImageBackground>
   );
 }

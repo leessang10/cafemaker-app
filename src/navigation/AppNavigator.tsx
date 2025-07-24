@@ -29,11 +29,7 @@ const ProfileScreen = () => (
   </View>
 );
 
-const MoreScreen = () => (
-  <View className="flex-1 justify-center items-center bg-white dark:bg-gray-900">
-    <Text className="text-lg font-semibold text-gray-900 dark:text-white">More Screen</Text>
-  </View>
-);
+import MoreScreen from '@screens/MoreScreen';
 
 const Tab = createBottomTabNavigator();
 
